@@ -1,0 +1,16 @@
+{
+    "m_ClassifierDirectory": "Watson/Scripts/Editor/Classifiers/",
+    "m_TimeOut": 30.0,
+    "m_MaxRestConnections": 5,
+    "m_Credentials": [
+        {
+            "m_ServiceID": "TextToSpeechV1",
+            "m_URL": "https://stream.watsonplatform.net/text-to-speech/api",
+            "m_User": "94742f4e-2fdb-4efb-87cb-ba3156ae0dce",
+            "m_Password": "wqCI21AyHo4B",
+            "m_Apikey": null,
+            "m_Note": null
+        }
+    ],
+    "m_Variables": []
+}
