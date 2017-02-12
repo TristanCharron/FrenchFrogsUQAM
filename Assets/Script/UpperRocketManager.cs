@@ -14,7 +14,7 @@ public class UpperRocketManager : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			SpawnRocket(Random.Range(-20,20), //x
-			            new Vector2(Random.Range(-70,70),1), //rotation
+			            Random.Range(-70,70), //rotation
 			            Random.Range(400,600),//speed
 			            Random.Range(0,rocketSprites.Length));
 		}
@@ -22,9 +22,9 @@ public class UpperRocketManager : MonoBehaviour
 
 
 	[SerializeField]GameObject RocketPref;
-	public void SpawnRocket(float x, Vector2 rotation,float speed,int currentSprite)
+	public void SpawnRocket(float x, float rotZ,float speed,int currentSprite)
 	{
-		GameObject rocket = Instantiate (RocketPref, new Vector2 (x, StartSpawn.position.y), Quaternion.Euler(0,0,rotation.x)) as GameObject;
+		GameObject rocket = Instantiate (RocketPref, new Vector2 (x, StartSpawn.position.y), Quaternion.Euler(0,0, rotZ)) as GameObject;
 		rocket.transform.SetParent (containerRockets, true);
 		rocket.transform.GetChild (0).GetComponent<SpriteRenderer> ().sprite = rocketSprites [currentSprite];
 		//	rocket.AddComponent<Rocket> ();
