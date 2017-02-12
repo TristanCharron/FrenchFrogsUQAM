@@ -18,6 +18,7 @@ public class Station : MonoBehaviour
         if (col.gameObject.CompareTag ("rocket")) {
 			Destroy(col.gameObject);
 			updateText ();
+			GameEffect.FlashSpriteLerp (gameObject, new Color32(150,255,255,255), .2f);
 		}
 			
 

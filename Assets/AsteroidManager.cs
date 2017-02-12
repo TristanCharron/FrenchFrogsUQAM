@@ -6,7 +6,7 @@ public class AsteroidManager : MonoBehaviour {
 
 	float speed = 50;
 	[SerializeField] GameObject[] asteroids;
-	const float minT = 10, maxT = 20;
+	const float minT = 7, maxT = 14;
 
 
 	// Use this for initialization
@@ -23,11 +23,15 @@ public class AsteroidManager : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(t);
 		int random = Random.Range (0,3);
+		float randomScale = Random.Range (1,4);
 		GameObject asteroid = Instantiate (asteroids[Random.Range(0,asteroids.Length)], transform.position, Quaternion.identity);
 		asteroid.transform.position = ReturnSpawnPos (random);
+		asteroid.transform.localScale = new Vector3 (randomScale,randomScale,randomScale);
 		asteroid.transform.eulerAngles = new Vector3(0,0,ReturnAngle (random));
+		asteroid.transform.SetParent (gameObject.transform);
+
 		asteroid.GetComponent<Rigidbody2D> ().AddRelativeForce (Vector2.up * speed);
-		Destroy (asteroid, 20);
+		Destroy (asteroid, 50);
 		StartCoroutine (SpawnRandom(Random.Range(minT, maxT)));
 	}
 
