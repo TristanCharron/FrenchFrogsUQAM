@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour 
 {
+	[SerializeField]float maxSpeed = 2.5f;
+	[SerializeField]GameObject deathAnim;
+	float realMaxSpeed;
+
 	bool inControl = true;
 	Rigidbody2D rigid;
 	void Start()
 	{
+		realMaxSpeed = maxSpeed * 2;
 		rigid = GetComponent<Rigidbody2D> ();
-		Destroy (gameObject, 15);
+		StartCoroutine(DelayDeath(15f));
 	}
 	void Update()
 	{
 		if(inControl)
 			RotateToVelocity ();
+
+		if (rigid.velocity.x + rigid.velocity.y > realMaxSpeed)
+		{
+			rigid.velocity = new Vector2(
+				(rigid.velocity.x > maxSpeed)? maxSpeed: rigid.velocity.x,
+				(rigid.velocity.y > maxSpeed)? maxSpeed: rigid.velocity.y);
+		}
 	}
 	public void RotateToVelocity() 
 	{ 
@@ -26,21 +38,43 @@ public class Rocket : MonoBehaviour
 	{
 		if (col.gameObject.CompareTag ("rocket"))
 		{
-			Destroy (gameObject, .5f);
+			StartCoroutine(DelayDeath(.5f));
 			inControl = false;
+		} else if (col.gameObject.CompareTag ("planet"))
+		{
+			DeathRocket();
 		}
-		else if(col.gameObject.CompareTag("planet"))
-		     Destroy(gameObject);
+
+
+			
+
+	}
+	IEnumerator DelayDeath(float t)
+	{
+		yield return new WaitForSeconds (t);
+		DeathRocket ();
+	}
+	void DeathRocket()
+	{
+		//Play particles Animation
+
+		//fade system
+		Transform particle = gameObject.transform.GetChild (1);
+		particle.SetParent (transform.parent, false);
+		particle.GetComponent<ParticleSystem> ().Stop ();
+		particle.gameObject.AddComponent<DelayDeath> ().delay = 1;
+	
+		GameObject death = Instantiate (deathAnim, gameObject.transform.position, Quaternion.identity) as GameObject;
+		death.transform.SetParent (gameObject.transform.parent);
+		death.gameObject.AddComponent<DelayDeath> ().delay = 1;
+
+		Destroy (gameObject);
 	}
 	void OnTriggerStay2D(Collider2D col)
 	{
-		if (col.gameObject.tag == "planet") 
+		if (col.gameObject.CompareTag("planet") || col.gameObject.CompareTag("station"))
 		{
-			float distance = GameMath.DistanceXY (gameObject, col.gameObject) * 2;
-			rigid.AddForce(
-				new Vector2(Mathf.Lerp(0,col.transform.position.x - gameObject.transform.position.x, distance),
-			            Mathf.Lerp(0,col.transform.position.y - gameObject.transform.position.y, distance)));
-
-				}
+			rigid.AddForce(col.GetComponent<Attraction>().Attract(gameObject));
+		}
 	}
 }

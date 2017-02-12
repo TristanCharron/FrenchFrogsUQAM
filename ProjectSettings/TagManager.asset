@@ -6,6 +6,7 @@ TagManager:
   tags:
   - rocket
   - planet
+  - station
   layers:
   - Default
   - TransparentFX
