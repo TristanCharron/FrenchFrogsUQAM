@@ -5,9 +5,9 @@ using UnityEngine.Networking;
 
 public class NetworkObjectManager : NetworkBehaviour {
 
-   [Command]
-    public void CmdTransferRocket(float x, float rotX, float rotY, float speed, int currentSprite)
+    [Command]
+    public void CmdTransferRocket(float x, float rotZ, float speed, int currentSprite)
     {
-		Camera.main.GetComponent<UpperRocketManager> ().SpawnRocket (x, new Vector2 (rotX, rotY), speed, currentSprite);
+		Camera.main.GetComponent<UpperRocketManager> ().SpawnRocket (x, rotZ, speed, currentSprite);
     }
 }
