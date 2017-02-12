@@ -7,7 +7,7 @@ public class Attraction : MonoBehaviour
 	[SerializeField]bool isAttracting;
 	public Vector2 Attract(GameObject Rocket)
 	{
-		float distance = GameMath.DistanceXY (Rocket, gameObject);
+		float distance = GameMath.DistanceXY (Rocket, gameObject) * 4f;
 		
 		Vector2 v;
 		if (isAttracting)

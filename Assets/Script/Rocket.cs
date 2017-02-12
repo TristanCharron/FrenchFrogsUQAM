@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour 
 {
-	[SerializeField]float maxSpeed = 2.5f;
+	[SerializeField]float maxSpeed = 25f;
 	[SerializeField]GameObject deathAnim;
 	float realMaxSpeed;
 
@@ -21,12 +21,13 @@ public class Rocket : MonoBehaviour
 		if(inControl)
 			RotateToVelocity ();
 
+		/*
 		if (rigid.velocity.x + rigid.velocity.y > realMaxSpeed)
 		{
 			rigid.velocity = new Vector2(
 				(rigid.velocity.x > maxSpeed)? maxSpeed: rigid.velocity.x,
 				(rigid.velocity.y > maxSpeed)? maxSpeed: rigid.velocity.y);
-		}
+		}*/
 	}
 	public void RotateToVelocity() 
 	{ 
