@@ -5,6 +5,7 @@ using UnityEngine;
 public class UpperRocketManager : MonoBehaviour
 {
 
+	[SerializeField]Transform containerRockets;
 	void Update()
 	{
 		if (Input.GetMouseButtonDown (0)) 
@@ -19,7 +20,8 @@ public class UpperRocketManager : MonoBehaviour
 	public void SpawnRocket(float x, Vector2 rotation,float speed)
 	{
 		GameObject rocket = Instantiate (RocketPref, new Vector2 (x, -5), Quaternion.Euler(0,0,rotation.x)) as GameObject;
-	//	rocket.AddComponent<Rocket> ();
+		rocket.transform.SetParent (containerRockets, true);
+		//	rocket.AddComponent<Rocket> ();
 
 		rocket.GetComponent<Rigidbody2D> ().AddRelativeForce (Vector2.up * speed);
 
