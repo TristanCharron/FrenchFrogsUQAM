@@ -7,14 +7,14 @@ public class Rocket : MonoBehaviour
 	[SerializeField]float maxSpeed = 25f;
 	[SerializeField]GameObject deathAnim;
 	float realMaxSpeed;
-
+	Color deathanimColor;
 	bool inControl = true;
 	Rigidbody2D rigid;
 	void Start()
 	{
 		realMaxSpeed = maxSpeed * 2;
 		rigid = GetComponent<Rigidbody2D> ();
-		StartCoroutine(DelayDeath(15f));
+		StartCoroutine(DelayDeath(15f,false));
 	}
 	void Update()
 	{
@@ -39,10 +39,12 @@ public class Rocket : MonoBehaviour
 	{
 		if (col.gameObject.CompareTag ("rocket"))
 		{
-			StartCoroutine(DelayDeath(.5f));
+			StartCoroutine(DelayDeath(.5f,true));
 			inControl = false;
 		} else if (col.gameObject.CompareTag ("planet"))
 		{
+			GameEffect.Shake(Camera.main.gameObject,.1f,.2f);
+			//GameEffect.FreezeFrame(.05f);
 			DeathRocket();
 		}
 
@@ -50,19 +52,22 @@ public class Rocket : MonoBehaviour
 			
 
 	}
-	IEnumerator DelayDeath(float t)
+	public void SetColorDeathAnim(Color color)
 	{
-		transform.GetChild(1).GetComponent<ParticleSystem> ().Stop ();
+		deathanimColor = color;
+	}
+	IEnumerator DelayDeath(float t,bool stopEmmit)
+	{
+		if(stopEmmit)
+			transform.GetChild(1).GetComponent<ParticleSystem> ().Stop ();
 		yield return new WaitForSeconds (t);
 		DeathRocket ();
 	}
-	void DeathRocket()
+	public void DeathRocket()
 	{
-		//Play particles Animation
-
 		//fade system
 		Transform particle = gameObject.transform.GetChild (1);
-		particle.SetParent (transform.parent, false);
+		particle.SetParent (transform.parent, true);
 		particle.GetComponent<ParticleSystem> ().Stop ();
 		particle.gameObject.AddComponent<DelayDeath> ().delay = 1;
 	
@@ -70,6 +75,9 @@ public class Rocket : MonoBehaviour
 		death.transform.SetParent (gameObject.transform.parent);
 		death.gameObject.AddComponent<DelayDeath> ().delay = 1;
 		death.transform.eulerAngles = new Vector2 (-90, 0);
+
+		death.GetComponent<ParticleSystem>().startColor = deathanimColor;
+
 		Destroy (gameObject);
 	}
 	void OnTriggerStay2D(Collider2D col)

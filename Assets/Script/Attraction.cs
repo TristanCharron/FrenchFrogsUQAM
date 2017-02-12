@@ -5,9 +5,10 @@ using UnityEngine;
 public class Attraction : MonoBehaviour 
 {
 	[SerializeField]bool isAttracting;
+	[SerializeField]float G = 2;
 	public Vector2 Attract(GameObject Rocket)
 	{
-		float distance = GameMath.DistanceXY (Rocket, gameObject) * 4f;
+		float distance = GameMath.DistanceXY (Rocket, gameObject) * G;
 		
 		Vector2 v;
 		if (isAttracting)
