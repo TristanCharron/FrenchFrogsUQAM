@@ -68,7 +68,7 @@ public class Rocket : MonoBehaviour
 		GameObject death = Instantiate (deathAnim, gameObject.transform.position, Quaternion.identity) as GameObject;
 		death.transform.SetParent (gameObject.transform.parent);
 		death.gameObject.AddComponent<DelayDeath> ().delay = 1;
-
+		death.transform.eulerAngles = new Vector2 (-90, 0);
 		Destroy (gameObject);
 	}
 	void OnTriggerStay2D(Collider2D col)
