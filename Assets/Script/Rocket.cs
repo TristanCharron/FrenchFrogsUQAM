@@ -52,6 +52,7 @@ public class Rocket : MonoBehaviour
 	}
 	IEnumerator DelayDeath(float t)
 	{
+		transform.GetChild(1).GetComponent<ParticleSystem> ().Stop ();
 		yield return new WaitForSeconds (t);
 		DeathRocket ();
 	}
