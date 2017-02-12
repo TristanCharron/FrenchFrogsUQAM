@@ -27,7 +27,7 @@ public class AsteroidManager : MonoBehaviour {
 		asteroid.transform.position = ReturnSpawnPos (random);
 		asteroid.transform.eulerAngles = new Vector3(0,0,ReturnAngle (random));
 		asteroid.GetComponent<Rigidbody2D> ().AddRelativeForce (Vector2.up * speed);
-
+		Destroy (asteroid, 20);
 		StartCoroutine (SpawnRandom(Random.Range(minT, maxT)));
 	}
 
